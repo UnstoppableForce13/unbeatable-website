@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unbeatable Website</title>
+    <style>
+        /* Basic styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin: 0 20px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        section {
+            padding: 40px 20px;
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+
+        button {
+            background-color: #27ae60;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #2ecc71;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome to the Unbeatable Website</h1>
+    </header>
+
+    <section id="home">
+        <h2>Secure, Fast, and Unbeatable</h2>
+        <p>Join us today to experience the ultimate online platform!</p>
+    </section>
+
+    <section id="contact">
+        <h2>Contact</h2>
+        <form id="contactForm">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            <button type="submit">Submit</button>
+        </form>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Unbeatable Website. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // Handle form submission
+        document.getElementById('contactForm').addEventListener('submit', async function (event) {
+            event.preventDefault();  // Prevent default form submission
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            // Fetch CSRF token from server
+            const csrfResponse = await fetch('/api/csrf-token');
+            const { csrfToken } = await csrfResponse.json();
+
+            // Send login request with CSRF token
+            const response = await fetch('/api/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'CSRF-Token': csrfToken  // Send CSRF token
+                },
+                body: JSON.stringify({ email, password })
+            });
+
+            const result = await response.json();
+            alert(result.message);
+        });
+    </script>
+</body>
+</html>
